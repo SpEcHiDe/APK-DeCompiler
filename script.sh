@@ -34,7 +34,7 @@ echo #                                                   #
 echo #####################################################
 cp ${varone} ./bin/remove.zip >>remove.tmp
 echo OUTPUT DIRECTORY ${varone:0,-4} CREATED >>remove.tmp
-mkdir %varone:~0,-4%
+mkdir ${varone:0,-4}
 cls
 echo #####################################################
 echo #                                                   #
@@ -64,7 +64,7 @@ echo #                                                   #
 echo #                 Press F to continue . . .         #
 echo #                                                   #
 echo #####################################################
-xcopy "./%varone:~0,-4%/classes.dex" "./bin/2.1/classes.dex" >>remove.tmp
+cp "./%varone:~0,-4%/classes.dex" "./bin/2.1/classes.dex" >>remove.tmp
 cd "./bin/2.1"
 cls
 echo #####################################################
@@ -79,7 +79,7 @@ echo #              RUNNING dex to class CONVERTER       #
 echo #                                                   #
 echo #####################################################
 start /wait dex2jar classes.dex
-del "./classes.dex"
+rm "./classes.dex"
 cd ..
 cd ..
 cls
@@ -94,8 +94,8 @@ echo #                                                   #
 echo #                 Press F to continue . . .         #
 echo #                                                   #
 echo #####################################################
-xcopy "./bin/2.1/classes_dex2jar.jar" "./bin/1.2/classes.jar" >>remove.tmp
-del "./bin/2.1/classes_dex2jar.jar"
+cp "./bin/2.1/classes_dex2jar.jar" "./bin/1.2/classes.jar" >>remove.tmp
+rm "./bin/2.1/classes_dex2jar.jar"
 
 :codesrc
 cd ./%varone:~0,-4%/
@@ -115,7 +115,7 @@ echo # After saving, close the Java Decompiler window         #
 echo #                                                        #
 echo ##########################################################
 pause
-jd-gui.exe classes.jar
+./jd-gui classes.jar
 del "./classes.jar"
 cd ..
 cd ..
@@ -131,8 +131,8 @@ echo #                                                   #
 echo #                 eXtracting SouRCe files           #
 echo #                                                   #
 echo #####################################################
-./bin/7z.exe x classes.src.zip -o"./%varone:~0,-4%/src/" >>remove.tmp
-del ./classes.src.zip
+unzip classes.src.zip -d"./${varone:0,-4}/src/" >>remove.tmp
+rm ./classes.src.zip
 
 :xmlsrc
 cls
@@ -147,7 +147,7 @@ echo #                                                   #
 echo #                 Press F to continue . . .         #
 echo #                                                   #
 echo #####################################################
-xcopy %varone% ./bin/3.1/%varone% >>remove.tmp
+cp ${varone} ./bin/3.1/{varone} >>remove.tmp
 cd ./bin/3.1/
 cls
 echo #####################################################
@@ -164,7 +164,7 @@ echo #####################################################
 start /wait apktool if framework-res.apk
 start /wait apktool d %varone%
 cls
-del %varone%
+rm %varone%
 cd ..
 cd ..
 cls
@@ -179,7 +179,7 @@ echo #                                                   #
 echo #                 Press A to continue . . .         #
 echo #                                                   #
 echo #####################################################
-xcopy "./bin/3.1/%varone:~0,-4%/*.*" "./%varone:~0,-4%/" /S /E /I >>remove.tmp
+cp -r "./bin/3.1/${varone:0,-4}/" "./" /S /E /I >>remove.tmp
 cls
 echo #####################################################
 echo #                                                   #
@@ -192,11 +192,11 @@ echo #                                                   #
 echo #                 Cleaning up . . .                 #
 echo #                                                   #
 echo #####################################################
-rmdir "./bin/3.1/%varone:~0,-4%" /S /Q
-xcopy "./%varone%" "./%varone:~0,-4%/" >>remove.tmp
-del "./%varone%"
-rmdir %USERPROFILE%/apktool /S /Q
-del remove.tmp
+rmdir "./bin/3.1/${varone:0,-4}" >>remove.tmp
+xcopy "./%varone%" "./${varone:0,-4}/" >>remove.tmp
+rm "./${varone}"
+# rmdir %USERPROFILE%/apktool /S /Q
+rm remove.tmp
 
 :end
 cls
@@ -212,5 +212,5 @@ echo #         Source code extraction completed      #
 echo #                                               #
 echo #################################################
 pause
-explorer.exe "./%varone:~0,-4%/"
+nautilus "./${varone:0,-4}/"
 exit
