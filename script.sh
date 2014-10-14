@@ -78,7 +78,7 @@ echo #                                                   #
 echo #              RUNNING dex to class CONVERTER       #
 echo #                                                   #
 echo #####################################################
-start /wait dex2jar classes.dex
+bash dex2jar.sh classes.dex
 rm "./classes.dex"
 cd ..
 cd ..
@@ -98,9 +98,9 @@ cp "./bin/2.1/classes_dex2jar.jar" "./bin/1.2/classes.jar" >>remove.tmp
 rm "./bin/2.1/classes_dex2jar.jar"
 
 :codesrc
-cd ./%varone:~0,-4%/
+cd ./${varone:0,-4}/
 mkdir src
-del AndroidManifest.xml
+rm AndroidManifest.xml
 cd ../bin/1.2
 cls
 echo ##########################################################
@@ -116,7 +116,7 @@ echo #                                                        #
 echo ##########################################################
 pause
 ./jd-gui classes.jar
-del "./classes.jar"
+rm "./classes.jar"
 cd ..
 cd ..
 cls
@@ -147,7 +147,7 @@ echo #                                                   #
 echo #                 Press F to continue . . .         #
 echo #                                                   #
 echo #####################################################
-cp ${varone} ./bin/3.1/{varone} >>remove.tmp
+cp ${varone} ./bin/3.1/${varone} >>remove.tmp
 cd ./bin/3.1/
 cls
 echo #####################################################
@@ -164,7 +164,7 @@ echo #####################################################
 start /wait apktool if framework-res.apk
 start /wait apktool d %varone%
 cls
-rm %varone%
+rm ${varone}
 cd ..
 cd ..
 cls
@@ -193,7 +193,7 @@ echo #                 Cleaning up . . .                 #
 echo #                                                   #
 echo #####################################################
 rmdir "./bin/3.1/${varone:0,-4}" >>remove.tmp
-xcopy "./%varone%" "./${varone:0,-4}/" >>remove.tmp
+cp "./${varone}" "./${varone:0,-4}/" >>remove.tmp
 rm "./${varone}"
 # rmdir %USERPROFILE%/apktool /S /Q
 rm remove.tmp
