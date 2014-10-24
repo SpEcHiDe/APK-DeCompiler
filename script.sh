@@ -1,8 +1,4 @@
-@echo off
-title :: APK DeCompiler ::
-
-:main
-cls
+clear
 echo #####################################################
 echo #                                                   #
 echo #                 APK DeCompiler v 6.79             #
@@ -15,12 +11,9 @@ echo #               Hit THANKS if I helped you          #
 echo #                                                   #
 echo #####################################################
 
-:inputfile
-read varone="Name of APK file : "
-echo INPUT FILE : ${varone} > remove.tmp
+echo INPUT FILE : ${1} > remove.tmp
 
-:rarx
-cls
+clear
 echo #####################################################
 echo #                                                   #
 echo #                 APK DeCompiler v 6.79             #
@@ -32,10 +25,10 @@ echo #                                                   #
 echo #                 Press F to continue . . .         #
 echo #                                                   #
 echo #####################################################
-cp ${varone} ./bin/remove.zip >>remove.tmp
-echo OUTPUT DIRECTORY ${varone:0,-4} CREATED >>remove.tmp
-mkdir ${varone:0,-4}
-cls
+cp ${1} bin/remove.zip >>remove.tmp
+echo OUTPUT DIRECTORY ${1:0,-4} CREATED >>remove.tmp
+mkdir ${1:0,-4}
+clear
 echo #####################################################
 echo #                                                   #
 echo #                 APK DeCompiler v 6.79             #
@@ -48,11 +41,10 @@ echo #                eXtracting RESource files          #
 echo #                                                   #
 echo #####################################################
 echo running DEX extraction >>remove.tmp
-unzip "./bin/remove.zip" -d"./${varone:0,-4}/" >>remove.tmp
-rm "./bin/remove.zip"
+unzip "bin/remove.zip" -d"${1:0,-4}/" >>remove.tmp
+rm "bin/remove.zip"
 
-:dexjar
-cls
+clear
 echo #####################################################
 echo #                                                   #
 echo #                 APK DeCompiler v 6.79             #
@@ -64,8 +56,8 @@ echo #                                                   #
 echo #                 Press F to continue . . .         #
 echo #                                                   #
 echo #####################################################
-cp "./%varone:~0,-4%/classes.dex" "./bin/2.1/classes.dex" >>remove.tmp
-cd "./bin/2.1"
+cp "${1:~0,-4}/classes.dex" "bin/2.1/classes.dex" >>remove.tmp
+cd "bin/2.1"
 cls
 echo #####################################################
 echo #                                                   #
@@ -79,7 +71,7 @@ echo #              RUNNING dex to class CONVERTER       #
 echo #                                                   #
 echo #####################################################
 bash dex2jar.sh classes.dex
-rm "./classes.dex"
+rm "classes.dex"
 cd ..
 cd ..
 cls
@@ -94,11 +86,10 @@ echo #                                                   #
 echo #                 Press F to continue . . .         #
 echo #                                                   #
 echo #####################################################
-cp "./bin/2.1/classes_dex2jar.jar" "./bin/1.2/classes.jar" >>remove.tmp
-rm "./bin/2.1/classes_dex2jar.jar"
+cp "bin/2.1/classes_dex2jar.jar" "bin/1.2/classes.jar" >>remove.tmp
+rm "bin/2.1/classes_dex2jar.jar"
 
-:codesrc
-cd ./${varone:0,-4}/
+cd ${1:0,-4}/
 mkdir src
 rm AndroidManifest.xml
 cd ../bin/1.2
@@ -116,7 +107,7 @@ echo #                                                        #
 echo ##########################################################
 pause
 ./jd-gui classes.jar
-rm "./classes.jar"
+rm "classes.jar"
 cd ..
 cd ..
 cls
@@ -131,8 +122,8 @@ echo #                                                   #
 echo #                 eXtracting SouRCe files           #
 echo #                                                   #
 echo #####################################################
-unzip classes.src.zip -d"./${varone:0,-4}/src/" >>remove.tmp
-rm ./classes.src.zip
+unzip classes.src.zip -d"${1:0,-4}/src/" >>remove.tmp
+rm classes.src.zip
 
 :xmlsrc
 cls
@@ -147,8 +138,8 @@ echo #                                                   #
 echo #                 Press F to continue . . .         #
 echo #                                                   #
 echo #####################################################
-cp ${varone} ./bin/3.1/${varone} >>remove.tmp
-cd ./bin/3.1/
+cp ${varone} bin/3.1/${varone} >>remove.tmp
+cd bin/3.1/
 cls
 echo #####################################################
 echo #                                                   #
@@ -161,8 +152,8 @@ echo #                                                   #
 echo #       creating AndroidManifest resources          #
 echo #                                                   #
 echo #####################################################
-start /wait apktool if framework-res.apk
-start /wait apktool d %varone%
+bash apktool.sh if framework-res.apk
+bash apktool.sh d %varone%
 cls
 rm ${varone}
 cd ..
@@ -179,7 +170,7 @@ echo #                                                   #
 echo #                 Press A to continue . . .         #
 echo #                                                   #
 echo #####################################################
-cp -r "./bin/3.1/${varone:0,-4}/" "./" /S /E /I >>remove.tmp
+cp -r "./bin/3.1/${varone:0,-4}/" "./" >>remove.tmp
 cls
 echo #####################################################
 echo #                                                   #
@@ -192,11 +183,11 @@ echo #                                                   #
 echo #                 Cleaning up . . .                 #
 echo #                                                   #
 echo #####################################################
-rmdir "./bin/3.1/${varone:0,-4}" >>remove.tmp
-cp "./${varone}" "./${varone:0,-4}/" >>remove.tmp
-rm "./${varone}"
+rmdir "bin/3.1/${1:0,-4}" >>remove.tmp
+cp "${1}" "${1:0,-4}/" >>remove.tmp
+rm "${1}"
 # rmdir %USERPROFILE%/apktool /S /Q
-rm remove.tmp
+# rm remove.tmp
 
 :end
 cls
@@ -212,5 +203,5 @@ echo #         Source code extraction completed      #
 echo #                                               #
 echo #################################################
 pause
-nautilus "./${varone:0,-4}/"
+nautilus "./${1:0,-4}/"
 exit
